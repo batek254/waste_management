@@ -22,3 +22,4 @@ dependencies:
     - python-dotenv
     - mkdocs
     - -e .
+    - tflite-runtime
