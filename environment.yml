@@ -17,6 +17,7 @@ dependencies:
   - numpy
   - pandas
   - scikit-learn
+  - conda-libmamba-solver
   - pip:
     - python-dotenv
     - mkdocs

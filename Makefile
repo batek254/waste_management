@@ -58,6 +58,7 @@ sync_data_up:
 .PHONY: create_environment
 create_environment:
 	conda env create --name $(PROJECT_NAME) -f environment.yml
+	conda config --set solver libmamba
 	
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 	
