@@ -2,7 +2,7 @@ name: waste_management
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
+  - python=3.11
   - black
   - flake8
   - isort
