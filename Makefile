@@ -3,6 +3,7 @@
 #################################################################################
 
 PROJECT_NAME = waste_management
+ENV_NAME_TF = waste_management_tf
 PYTHON_VERSION = 3.11
 PYTHON_INTERPRETER = python
 
@@ -14,10 +15,14 @@ PYTHON_INTERPRETER = python
 ## Install Python Dependencies
 .PHONY: requirements
 requirements:
-	conda env update --name $(PROJECT_NAME) --file environment.yml --prune
+	ifeq [$CONDA_PREFIX == "waste_management"]
+		conda env update --name $(PROJECT_NAME) --file environment.yml --prune
+	else ifeq [$CONDA_PREFIX == "waste_management_tf"]
+		conda env update --name $(PROJECT_NAME) --file environment_tf.yml --prune
+	else
+		@echo ">>> No conda environment found. Please create one using 'make create_environment'"
+	endif
 	
-
-
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -57,11 +62,21 @@ sync_data_up:
 ## Set up python interpreter environment
 .PHONY: create_environment
 create_environment:
-	conda env create --name $(PROJECT_NAME) -f environment.yml
+	@echo ">>> embedded environment will be created and libmamba solver will be set as default solver"
+	conda install -n base conda-libmamba-solver
 	conda config --set solver libmamba
-	
+	conda env create --name $(PROJECT_NAME) -f environment.yml
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
-	
+
+
+# Set up python interpreter environment for tensorflow
+.PHONY: create_environment_tf
+create_environment_tf:
+	@echo ">>> tf environment will be created and libmamba solver will be set as default solver"
+	conda install -n base conda-libmamba-solver
+	conda config --set solver libmamba
+	conda env create --name $(ENV_NAME_TF) -f environment_tf.yml
+	@echo ">>> conda env created. Activate with:\nconda activate $(ENV_NAME_TF)"
 
 
 
