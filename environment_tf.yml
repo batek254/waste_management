@@ -1,4 +1,4 @@
-name: waste_management
+name: waste_management_tf
 channels:
   - conda-forge
 dependencies:
@@ -21,4 +21,5 @@ dependencies:
     - python-dotenv
     - mkdocs
     - -e .
-    - tflite-runtime
+    - tensorflow
+    - keras
