@@ -15,9 +15,11 @@ PYTHON_INTERPRETER = python
 ## Install Python Dependencies
 .PHONY: requirements
 requirements:
-	ifeq [$CONDA_PREFIX == "waste_management"]
-		conda env update --name $(PROJECT_NAME) --file environment.yml --prune
-	else ifeq [$CONDA_PREFIX == "waste_management_tf"]
+	ifeq ($(CONDA_PREFIX), "prefix")
+		@echo ">>> TEST"
+#	ifeq ($(shell basename $(CONDA_PREFIX)), waste_management)
+#		conda env update --name $(PROJECT_NAME) --file environment.yml --prune
+	else ifeq ($(shell basename $(CONDA_PREFIX)), waste_management_tf)
 		conda env update --name $(PROJECT_NAME) --file environment_tf.yml --prune
 	else
 		@echo ">>> No conda environment found. Please create one using 'make create_environment'"
