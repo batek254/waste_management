@@ -15,13 +15,13 @@ PYTHON_INTERPRETER = python
 ## Install Python Dependencies
 .PHONY: requirements
 requirements:
-	ifeq [$CONDA_PREFIX == "waste_management"]
-		conda env update --name $(PROJECT_NAME) --file environment.yml --prune
-	else ifeq [$CONDA_PREFIX == "waste_management_tf"]
-		conda env update --name $(PROJECT_NAME) --file environment_tf.yml --prune
-	else
-		@echo ">>> No conda environment found. Please create one using 'make create_environment'"
-	endif
+ifeq ($(shell basename $(CONDA_PREFIX)), waste_management)
+	conda env update --name $(PROJECT_NAME) --file environment.yml --prune
+else ifeq ($(shell basename $(CONDA_PREFIX)), waste_management_tf)
+	conda env update --name $(ENV_NAME_TF) --file environment_tf.yml --prune
+else
+	@echo ">>> No conda environment found. Please create one using 'make create_environment'"
+endif
 	
 
 ## Delete all compiled Python files
@@ -88,7 +88,7 @@ create_environment_tf:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) waste_management/data/make_dataset.py
+	$(PYTHON_INTERPRETER) waste_management/dataset.py
 
 
 #################################################################################
